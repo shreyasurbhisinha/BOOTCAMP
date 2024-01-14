@@ -1,0 +1,105 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Country, State, and City Dropdowns</title>
+    </head>
+    <body>
+    
+    <form>
+        <label for="country">Select Country:</label>
+        <select id="country" onchange="updateStates()">
+            <option value="" selected disabled>Select Country</option>
+            
+            <option value="India">India</option>
+            <option value="Canada">Canada</option>
+            <option value="Bangladesh">Canada</option>
+        </select><br>
+    
+        <label for="state">Select State:</label>
+        <select id="state" onchange="updateCities()">
+            <option value="" selected disabled>Select State</option>
+           
+        </select><br>
+    
+        <label for="city">Select City:</label>
+        <select id="city">
+            <option value="" selected disabled>Select City</option>
+            
+        </select>
+    </form>
+    
+    <script>
+        
+        var data = {
+            "India": {
+                "Bihar": ["Gaya", "Patna", "Betiya"],
+                "Uttar Pradesh": ["Kosi", "Mathura", "Lucknow"],
+            
+            },
+            "Canada": {
+                "Ontario": ["Toronto", "Ottawa", "Hamilton"],
+                "Quebec": ["Montreal", "Quebec City", "Sherbrooke"],
+                
+            },
+            "Bangladesh": {
+                "Rangpur": ["Dhakkka", "Kulna", "Gazipur"],
+                "Sylhet": ["Habibganj", "Moulvibazar", "Sunamjang"],
+                
+            }
+            
+        };
+    
+        function updateStates() {
+            var countrySelect = document.getElementById("country");
+            var stateSelect = document.getElementById("state");
+            var citySelect = document.getElementById("city");
+    
+            var selectedCountry = countrySelect.value;
+    
+            // Clear the state and city dropdowns
+            stateSelect.innerHTML = '<option value="" selected disabled>Select State</option>';
+            citySelect.innerHTML = '<option value="" selected disabled>Select City</option>';
+    
+            // Populate the state dropdown based on the selected country
+            if (selectedCountry in data) {
+                for (var state in data[selectedCountry]) {
+                    var option = document.createElement("option");
+                    option.value = state;
+                    option.text = state;
+                    stateSelect.add(option);
+                }
+            }
+        }
+    
+        function updateCities() {
+            var stateSelect = document.getElementById("state");
+            var citySelect = document.getElementById("city");
+    
+            var selectedCountry = document.getElementById("country").value;
+            var selectedState = stateSelect.value;
+    
+            // Clear the city dropdown
+            citySelect.innerHTML = '<option value="" selected disabled>Select City</option>';
+    
+            // Populate the city dropdown based on the selected country and state
+            if (selectedCountry in data && selectedState in data[selectedCountry]) {
+                for (var i = 0; i < data[selectedCountry][selectedState].length; i++) {
+                    var city = data[selectedCountry][selectedState][i];
+                    var option = document.createElement("option");
+                    option.value = city;
+                    option.text = city;
+                    citySelect.add(option);
+                }
+            }
+        }
+    </script>
+    
+    </body>
+    </html>
+    
+    
+</body>
+</html>
